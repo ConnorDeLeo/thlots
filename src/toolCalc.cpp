@@ -138,7 +138,7 @@ std::vector<std::string> toolCalc::createPath(toolCalc::thread usedThread, float
             currentZ = currentZ + deltaZ;
             outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 1));
             currentZ = currentZ - deltaZ;
-            outputCode.push_back(gc.quarterArc(-arcRadius, currentZ, 1));
+            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 1));
             currentZ = currentZ + deltaZ;
             outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 1));
 
@@ -146,7 +146,7 @@ std::vector<std::string> toolCalc::createPath(toolCalc::thread usedThread, float
             currentZ = currentZ + deltaZ;
             outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 2));
             currentZ = currentZ - deltaZ;
-            outputCode.push_back(gc.quarterArc(-arcRadius, currentZ, 2));
+            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 2));
             currentZ = currentZ + deltaZ;
             outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 2));
 
@@ -154,7 +154,7 @@ std::vector<std::string> toolCalc::createPath(toolCalc::thread usedThread, float
             currentZ = currentZ + deltaZ;
             outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 3));
             currentZ = currentZ - deltaZ;
-            outputCode.push_back(gc.quarterArc(-arcRadius, currentZ, 3));
+            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 3));
             currentZ = currentZ + deltaZ;
             outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 3));
 
@@ -162,7 +162,7 @@ std::vector<std::string> toolCalc::createPath(toolCalc::thread usedThread, float
             currentZ = currentZ + deltaZ;
             outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 4));
             currentZ = currentZ - deltaZ;
-            outputCode.push_back(gc.quarterArc(-arcRadius, currentZ, 4));
+            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 4));
             currentZ = currentZ + deltaZ;
             outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 4));
         }

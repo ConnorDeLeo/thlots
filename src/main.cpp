@@ -102,7 +102,9 @@ int main() {
         return 1;
     }
     
+    //std::cout << "Starting file output stream!" << std::endl;
     for(int s = 0; s < outputString.size(); s++) {
+        //std::cout << outputString[s] << std::endl;
         outFile << outputString[s] << std::endl;
     }
 

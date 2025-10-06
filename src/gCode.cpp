@@ -4,7 +4,7 @@
 
 #include "gCode.hpp"
 
-void gCode::resetLine(gCode::code line) {
+gCode::code gCode::resetLine(gCode::code line) {
     line.gmfst = "";
     line.opNum = "";
     line.x = "";
@@ -15,6 +15,8 @@ void gCode::resetLine(gCode::code line) {
     line.k = "";
     line.rpm = "";
     line.feedRate = "";
+
+    return line;
 }
 
 std::vector<gCode::code> gCode::setup(std::string units, bool rapid, float rpm, float feedRate, float safe) {
@@ -30,21 +32,21 @@ std::vector<gCode::code> gCode::setup(std::string units, bool rapid, float rpm, 
     }
 
     outputCode.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     // set absolute positioning
     currentLine.gmfst = "G";
     currentLine.opNum = "90";
 
     outputCode.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     // set feed
     currentLine.gmfst = "F";
     currentLine.feedRate = std::to_string(feedRate);
 
     outputCode.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     // set rapid and home
     if(rapid == true) {
@@ -53,7 +55,7 @@ std::vector<gCode::code> gCode::setup(std::string units, bool rapid, float rpm, 
         currentLine.z = std::to_string(safe);
 
         outputCode.push_back(currentLine);
-        resetLine(currentLine);
+        currentLine = resetLine(currentLine);
 
         currentLine.gmfst = "G";
         currentLine.opNum = "0";
@@ -66,7 +68,7 @@ std::vector<gCode::code> gCode::setup(std::string units, bool rapid, float rpm, 
         currentLine.z = std::to_string(safe);
 
         outputCode.push_back(currentLine);
-        resetLine(currentLine);
+        currentLine = resetLine(currentLine);
 
         currentLine.gmfst = "G";
         currentLine.opNum = "1";
@@ -75,19 +77,19 @@ std::vector<gCode::code> gCode::setup(std::string units, bool rapid, float rpm, 
     }
 
     outputCode.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     currentLine.gmfst = "S";
     currentLine.rpm = std::to_string(rpm);
 
     outputCode.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     return outputCode;
 }
 
 std::vector<gCode::code> gCode::dig(float partAndToolRadius, float h) {
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     std::vector<gCode::code> digOut;
 
@@ -97,27 +99,27 @@ std::vector<gCode::code> gCode::dig(float partAndToolRadius, float h) {
     currentLine.y = "0";
 
     digOut.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     currentLine.gmfst = "G";
     currentLine.opNum = "1";
     currentLine.z = "0";
 
     digOut.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     currentLine.gmfst = "G";
     currentLine.opNum = "1";
     currentLine.x = std::to_string(partAndToolRadius - h);
 
     digOut.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     return digOut;
 }
 
 std::vector<gCode::code> gCode::release(float partAndToolRadius, float safe) {
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     std::vector<gCode::code> releaseOut;
 
@@ -126,20 +128,20 @@ std::vector<gCode::code> gCode::release(float partAndToolRadius, float safe) {
     currentLine.x = std::to_string(partAndToolRadius + (0.1 * partAndToolRadius));
 
     releaseOut.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     currentLine.gmfst = "G";
     currentLine.opNum = "1";
     currentLine.z = std::to_string(safe);
 
     releaseOut.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     return releaseOut;
 }
 
 std::vector<gCode::code> gCode::end() {
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     std::vector<gCode::code> endOut;
 
@@ -147,19 +149,19 @@ std::vector<gCode::code> gCode::end() {
     currentLine.opNum = "5";
 
     endOut.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     currentLine.gmfst = "M";
     currentLine.opNum = "2";
 
     endOut.push_back(currentLine);
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     return(endOut);
 }
 
 gCode::code gCode::fullArc(float arcRadius, float z) {
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     currentLine.gmfst = "G";
     currentLine.opNum = "2";
@@ -174,7 +176,7 @@ gCode::code gCode::fullArc(float arcRadius, float z) {
 }
 
 gCode::code gCode::quarterArc(float arcRadius, float z, int quarter) {
-    resetLine(currentLine);
+    currentLine = resetLine(currentLine);
 
     currentLine.gmfst = "G";
     currentLine.opNum = "2";
@@ -214,7 +216,7 @@ gCode::code gCode::quarterArc(float arcRadius, float z, int quarter) {
 
     currentLine.z = std::to_string(z);
 
-    std::cout << currentLine.opNum << ": " << z << std::endl;
+    std::cout << currentLine.opNum << ") Z: " << z << ", J:" << currentLine.j << std::endl;
     return currentLine;
 }
 
