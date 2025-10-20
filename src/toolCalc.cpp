@@ -134,37 +134,19 @@ std::vector<std::string> toolCalc::createPath(toolCalc::thread usedThread, float
         deltaZ = -1*(usedThread.pitch / 4);
 
         while((currentZ + (4 * deltaZ)) > (-1*threadLength)) {
-            // first quarter in, out, and back in
-            currentZ = currentZ + deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 1));
-            currentZ = currentZ - deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 1));
-            currentZ = currentZ + deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 1));
+            for (int q = 1; q <= 4; q++) {
+                // in
+                currentZ += deltaZ;
+                outputCode.push_back(gc.quarterArc(arcRadius, currentZ, q, true));
 
-            // second quarter in, out, and back in
-            currentZ = currentZ + deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 2));
-            currentZ = currentZ - deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 2));
-            currentZ = currentZ + deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 2));
+                // out
+                currentZ -= deltaZ;
+                outputCode.push_back(gc.quarterArc(arcRadius, currentZ, q, false));
 
-            // third quarter in, out, and back in
-            currentZ = currentZ + deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 3));
-            currentZ = currentZ - deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 3));
-            currentZ = currentZ + deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 3));
-
-            // fourth quarter in, out, and back in
-            currentZ = currentZ + deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 4));
-            currentZ = currentZ - deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 4));
-            currentZ = currentZ + deltaZ;
-            outputCode.push_back(gc.quarterArc(arcRadius, currentZ, 4));
+                // go back in
+                currentZ += deltaZ;
+                outputCode.push_back(gc.quarterArc(arcRadius, currentZ, q, true));
+            }
         }
     }
     else {

@@ -33,7 +33,7 @@ class gCode {
         // util functions
         code resetLine(code line);
         code fullArc(float arcRadius, float z);
-        code quarterArc(float arcRadius, float z, int quarter);
+        code quarterArc(float arcRadius, float z, int quarter, bool down);
         std::vector<std::string> toString(std::vector<code> input);
     
     private:

@@ -8,6 +8,7 @@
 
 class utils {
     public:
+        // functions
         int findVectorIndex(const std::vector<int> inputVector, int searchVal);
 };
 

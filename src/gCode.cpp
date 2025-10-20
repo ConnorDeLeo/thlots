@@ -1,6 +1,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <sstream>
 
 #include "gCode.hpp"
 
@@ -175,43 +176,82 @@ gCode::code gCode::fullArc(float arcRadius, float z) {
     return currentLine;
 }
 
-gCode::code gCode::quarterArc(float arcRadius, float z, int quarter) {
+gCode::code gCode::quarterArc(float arcRadius, float z, int quarter, bool down) {
     currentLine = resetLine(currentLine);
 
     currentLine.gmfst = "G";
-    currentLine.opNum = "2";
+    
+    if(down == true) {
+        currentLine.opNum = "2";
 
-    switch(quarter) {
-        case 1:
-            currentLine.x = "0";
-            currentLine.y = std::to_string(arcRadius);
-            currentLine.i = std::to_string(-1*arcRadius);
-            currentLine.j = "0";
-            break;
+        switch(quarter) {
+            case 1:
+                currentLine.x = "0";
+                currentLine.y = std::to_string(-1*arcRadius);
+                currentLine.i = std::to_string(-1*arcRadius);
+                currentLine.j = "0";
+                break;
 
-        case 2:
-            currentLine.x = std::to_string(-1*arcRadius);
-            currentLine.y = "0";
-            currentLine.i = "0";
-            currentLine.j = std::to_string(-1*arcRadius);
-            break;
-        
-        case 3:
-            currentLine.x = "0";
-            currentLine.y = std::to_string(-1*arcRadius);
-            currentLine.i = std::to_string(arcRadius);
-            currentLine.j = "0";
-            break;
+            case 2:
+                currentLine.x = std::to_string(-1*arcRadius);
+                currentLine.y = "0";
+                currentLine.i = "0";
+                currentLine.j = std::to_string(arcRadius);
+                break;
+            
+            case 3:
+                currentLine.x = "0";
+                currentLine.y = std::to_string(arcRadius);
+                currentLine.i = std::to_string(arcRadius);
+                currentLine.j = "0";
+                break;
 
-        case 4:
-            currentLine.x = std::to_string(arcRadius);
-            currentLine.y = "0";
-            currentLine.i = "0";
-            currentLine.j = std::to_string(arcRadius);
-            break;
-        
-        default:
-            break;
+            case 4:
+                currentLine.x = std::to_string(arcRadius);
+                currentLine.y = "0";
+                currentLine.i = "0";
+                currentLine.j = std::to_string(-1*arcRadius);
+                break;
+            
+            default:
+                break;
+        }
+    }
+    else {
+        currentLine.opNum = "3";
+
+        switch(quarter) {
+            case 1:
+                currentLine.x = std::to_string(arcRadius);
+                currentLine.y = "0";
+                currentLine.i = "0";
+                currentLine.j = std::to_string(arcRadius);
+                break;
+
+            case 2:
+                currentLine.x = "0";
+                currentLine.y = std::to_string(-1*arcRadius);
+                currentLine.i = std::to_string(arcRadius);
+                currentLine.j = "0";
+                break;
+            
+            case 3:
+                currentLine.x = std::to_string(-1*arcRadius);
+                currentLine.y = "0";
+                currentLine.i = "0";
+                currentLine.j = std::to_string(-1*arcRadius);
+                break;
+
+            case 4:
+                currentLine.x = "0";
+                currentLine.y = std::to_string(arcRadius);
+                currentLine.i = std::to_string(-1*arcRadius);
+                currentLine.j = "0";
+                break;
+            
+            default:
+                break;
+        }
     }
 
     currentLine.z = std::to_string(z);

@@ -1,2 +1,0 @@
-fix odd opposing loop on feedbackoff (every 4 segments an inverted one gets inserted?)
-fix drops on full arc (drops on z, then spirals down z)
